@@ -76,38 +76,40 @@ export const useUsersStore = defineStore('users', () => {
 		});
 	}
 
-    const init = () => {
-        const storedData = localStorage.getItem("state");
-        if (storedData) {
-            const parsedData: PackedRow[] = JSON.parse(storedData);
-            parsedData.forEach(packedRow => {
-                rows.push({
-                    name: {
-                        type: "text",
-                        value: packedRow.name.join(';'), // Join split parts
-                        max: 50
-                    },
-                    type: {
-                        type: "select",
-                        value: packedRow.type,
-                        required: true
-                    },
-                    login: {
-                        type: "text",
-                        value: packedRow.login,
-                        required: true,
-                        max: 100
-                    },
-                    password: {
-                        type: "password",
-                        value: packedRow.password,
-                        required: true,
-                        max: 100
-                    },
-                });
-            });
-        }
-    };
+	const init = () => {
+		const storedData = localStorage.getItem("state");
+
+		if (!storedData) return;
+
+		const parsedData: PackedRow[] = JSON.parse(storedData);
+
+		parsedData.forEach(packedRow => {
+			rows.push({
+				name: {
+					type: "text",
+					value: packedRow.name.join(';'),
+					max: 50
+				},
+				type: {
+					type: "select",
+					value: packedRow.type,
+					required: true
+				},
+				login: {
+					type: "text",
+					value: packedRow.login,
+					required: true,
+					max: 100
+				},
+				password: {
+					type: "password",
+					value: packedRow.password,
+					required: true,
+					max: 100
+				},
+			});
+		});
+	};
 
 	const update = (id: number, data: Row) => {
 		rows[id] = data;
